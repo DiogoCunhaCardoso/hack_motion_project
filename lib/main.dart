@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hack_motion_project/cubit/swing_cubit.dart';
+import 'package:hack_motion_project/data/service/jsons/json_loader.dart';
 import 'package:hack_motion_project/routing/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(
     BlocProvider(
-      create: (_) => SwingListCubit()..loadSwings(SwingListCubit.swingNames),
+      create: (_) => SwingListCubit(SwingJsonLoader())..loadSwings(),
       child: const MyApp(),
     ),
   );

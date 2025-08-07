@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hack_motion_project/cubit/swing_cubit.dart';
+import 'package:hack_motion_project/data/model/swing_model.dart';
 
 class SwingArguments {
-  final String swingName;
+  final int currentIndex;
 
-  SwingArguments({required this.swingName});
+  SwingArguments({required this.currentIndex});
 }
 
 class SwingDetailsView extends StatelessWidget {
@@ -13,7 +16,7 @@ class SwingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as SwingArguments;
 
-    final swingName = args.swingName;
+    final curIndex = args.currentIndex;
 
     return Scaffold(
       appBar: AppBar(
@@ -23,36 +26,47 @@ class SwingDetailsView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(swingName), Icon(Icons.delete)],
-            ),
-            SizedBox(height: 48),
-            Text("Swing Graph"),
-            SizedBox(height: 16),
-            Placeholder(fallbackHeight: 200, fallbackWidth: 1),
+        child: BlocBuilder<SwingListCubit, List<SwingModel>>(
+          builder: (context, swings) {
+            if (swings.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-            Spacer(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton.icon(
-                  onPressed: () {},
-                  label: Text("Previous"),
-                  icon: Icon(Icons.adaptive.arrow_back),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text("Swing ${curIndex + 1}"), Icon(Icons.delete)],
                 ),
-                TextButton.icon(
-                  onPressed: () {},
-                  label: Text("Next"),
-                  icon: Icon(Icons.adaptive.arrow_forward),
+                SizedBox(height: 48),
+                Text("Swing Graph"),
+                SizedBox(height: 16),
+                Placeholder(fallbackHeight: 200, fallbackWidth: 1),
+
+                // ok I am getting the data :)
+                Text(swings[curIndex].flexionExtension[0].toString()),
+
+                Spacer(),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {},
+                      label: Text("Previous"),
+                      icon: Icon(Icons.adaptive.arrow_back),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {},
+                      label: Text("Next"),
+                      icon: Icon(Icons.adaptive.arrow_forward),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

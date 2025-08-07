@@ -11,8 +11,8 @@ class SwingMapper {
   factory SwingMapper.fromJson(Map<String, dynamic> json) {
     final params = json['parameters'] as Map<String, dynamic>;
 
-    final flexEx = params['HFA_crWrFlexEx']['values'] as List<double>? ?? [];
-    final ulnRad = params['HFA_crWrRadUln']['values'] as List<double>? ?? [];
+    final flexEx = params['HFA_crWrFlexEx']['values'] as List? ?? [];
+    final ulnRad = params['HFA_crWrRadUln']['values'] as List? ?? [];
 
     return SwingMapper(
       flexionExtension: flexEx.map((e) => (e as num).toDouble()).toList(),
