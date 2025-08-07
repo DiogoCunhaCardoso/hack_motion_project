@@ -16,11 +16,26 @@ class HomeView extends StatelessWidget {
         title: Text("Home"),
         centerTitle: true,
       ),
-      body: BlocBuilder<SwingListCubit, List<SwingModel>>(
+      body: BlocBuilder<SwingListCubit, List<SwingModel>?>(
         builder: (context, swings) {
-          if (swings.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+          if (swings == null) {
+            return const Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text("Loading your swings"),
+                ],
+              ),
+            );
           }
+
+          if (swings.isEmpty) {
+            return const Center(child: Text("No swings available"));
+          }
+
+          //
 
           return ListView.builder(
             padding: const EdgeInsets.all(20),
