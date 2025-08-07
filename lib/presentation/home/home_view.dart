@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hack_motion_project/cubit/swing_cubit.dart';
 import 'package:hack_motion_project/data/model/swing_model.dart';
 import 'package:hack_motion_project/presentation/swing_details/swing_details.dart';
-import 'package:hack_motion_project/routing/routes.dart';
+import 'package:hack_motion_project/config/routing/routes.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -11,11 +11,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text("Home"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text("Home")),
       body: BlocBuilder<SwingListCubit, List<SwingModel>?>(
         builder: (context, swings) {
           if (swings == null) {

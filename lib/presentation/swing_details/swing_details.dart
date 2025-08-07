@@ -1,9 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hack_motion_project/config/theme/colors.dart';
 import 'package:hack_motion_project/cubit/swing_cubit.dart';
 import 'package:hack_motion_project/data/model/swing_model.dart';
-import 'package:hack_motion_project/routing/routes.dart';
+import 'package:hack_motion_project/config/routing/routes.dart';
+import 'package:hack_motion_project/presentation/widgets/linegraph/line_graph.dart';
 
 class SwingArguments {
   final int currentIndex;
@@ -70,11 +71,7 @@ class SwingDetailsView extends StatelessWidget {
     final curIndex = args.currentIndex;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text("Inspection"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text("Inspection")),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: BlocBuilder<SwingListCubit, List<SwingModel>?>(
@@ -97,51 +94,26 @@ class SwingDetailsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Swing ${curIndex + 1}"),
+                    Text(
+                      "Swing ${curIndex + 1}",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
-                    IconButton(
+                    IconButton.filledTonal(
                       onPressed: () => _deleteSwing(context, curIndex, swings),
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.delete, size: 20, color: AppColors.red),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 48),
-                Text("Swing Graph"),
-                SizedBox(height: 16),
+                SizedBox(height: 32),
 
-                Expanded(
-                  child: LineChart(
-                    LineChartData(
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: List.generate(
-                            swings[curIndex].flexionExtension.length,
-                            (index) => FlSpot(
-                              index.toDouble(),
-                              swings[curIndex].flexionExtension[index],
-                            ),
-                          ),
-                          isCurved: true,
-                          barWidth: 4,
-                          color: Color(0xFF00c2bc),
-                          dotData: FlDotData(show: false),
-                        ),
-                        LineChartBarData(
-                          spots: List.generate(
-                            swings[curIndex].flexionExtension.length,
-                            (index) => FlSpot(
-                              index.toDouble(),
-                              swings[curIndex].ulnarRadial[index],
-                            ),
-                          ),
-                          isCurved: true,
-                          barWidth: 4,
-                          color: Color(0xFFFF9300),
-                          dotData: FlDotData(show: false),
-                        ),
-                      ],
-                    ),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SwingLineChart(swing: swings[curIndex]),
                   ),
                 ),
 
