@@ -37,6 +37,7 @@ class HomeView extends StatelessWidget {
                       RouteNames.swingDetails,
                       arguments: SwingArguments(swingName: currentSwingName),
                     ),
+                trailing: Icon(Icons.adaptive.arrow_forward),
               ),
               Divider(),
             ],
