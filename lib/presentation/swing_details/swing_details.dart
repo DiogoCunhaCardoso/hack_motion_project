@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 
+class SwingArguments {
+  final String swingName;
+
+  SwingArguments({required this.swingName});
+}
+
 class SwingDetailsView extends StatelessWidget {
   const SwingDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as SwingArguments;
+
+    final swingName = args.swingName;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -18,7 +28,7 @@ class SwingDetailsView extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("Swing Name"), Icon(Icons.delete)],
+              children: [Text(swingName), Icon(Icons.delete)],
             ),
             SizedBox(height: 48),
             Text("Swing Graph"),
