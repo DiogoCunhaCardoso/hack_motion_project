@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hack_motion_project/cubit/swing_cubit.dart';
 import 'package:hack_motion_project/routing/routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (_) => SwingListCubit()..loadSwings(SwingListCubit.swingNames),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
